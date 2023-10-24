@@ -1,3 +1,5 @@
+import javax.swing.*; 
+
 public class App
 {
   int MAX_IMAGE_WIDTH = 960;
@@ -6,10 +8,21 @@ public class App
   PFont font;
   color currentColor;
   ColorChooserEnum chooser = ColorChooserEnum.Point;
+
+  final JFileChooser fc = new JFileChooser();
+  int returnVal = fc.showOpenDialog(null);
   public void setup()
   {
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      File file = fc.getSelectedFile();
+      String myInputFile = file.getAbsolutePath();
+      theImage = loadImage(myInputFile);
+    } else {
+      println("Cancelled.");
+      theImage = loadImage("lake.png");
+    }
+
     font = createFont("Arial Bold", 16, true); // Arial, 16 point, anti-aliasing on
-    theImage = loadImage("lake.png");
     size(1200, 1000);
     frameRate(30);
   }
